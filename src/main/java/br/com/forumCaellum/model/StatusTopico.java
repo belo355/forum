@@ -1,4 +1,4 @@
-package br.com.alura.forumCaellum.model;
+package br.com.forumCaellum.model;
 
 public enum StatusTopico {
 	

@@ -1,4 +1,4 @@
-package br.com.alura.forumCaellum.model;
+package br.com.forumCaellum.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,10 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
+import lombok.Data;
+
+@Data
 @Entity
-@Table(name = "topico")
 public class Topico {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)

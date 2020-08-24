@@ -1,4 +1,4 @@
-package br.com.alura.forumCaellum.model;
+package br.com.forumCaellum.model;
 
 import java.time.LocalDateTime;
 
@@ -7,10 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
+import lombok.Data;
+
+@Data
 @Entity
-@Table(name = "resposta")
 public class Resposta {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)

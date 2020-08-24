@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.com.alura.forumCaellum.model.Topico;
+import br.com.forumCaellum.model.Topico;
 
 public class TopicoDto {
 	

@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.alura.forumCaellum.model.Curso;
-import br.com.alura.forumCaellum.model.Topico;
 import br.com.forumCaellum.controller.dto.TopicoDto;
+import br.com.forumCaellum.model.Curso;
+import br.com.forumCaellum.model.Topico;
 
 @RestController
 public class TopicosController {
