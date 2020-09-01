@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.com.forumCaellum.model.Curso;
 import br.com.forumCaellum.model.Topico;
 
 public class TopicoDto {
@@ -13,14 +12,15 @@ public class TopicoDto {
 	private String titulo; 
 	private String mensagem; 
 	private LocalDateTime dataCriacao;
-	private Curso curso; 
-	
+	private String curso;
+
 	public TopicoDto(Topico topico){
 		this.id = topico.getId();
 		this.titulo = topico.getTitulo();
 		this.mensagem = topico.getMensagem();
 		this.dataCriacao = topico.getDataCriacao();
-		this.curso = topico.getCurso(); 
+		this.curso = topico.getCurso().getNome(); 
+
 	}
 	
 	public Long getId() {
@@ -36,7 +36,7 @@ public class TopicoDto {
 		return dataCriacao;
 	}
 	
-	public Curso getCurso() {
+	public String getCurso() {
 		return curso;
 	}
 
