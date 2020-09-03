@@ -31,8 +31,8 @@ public class AuthController {
 		UsernamePasswordAuthenticationToken dadosLogin = form.converter(); 
 		
 		Authentication authentication = authManager.authenticate(dadosLogin);
-		String token = tokenService.generateToken(authentication); 
-		System.out.println(token);
+		String token = tokenService.generateToken(authentication);
+
 		return ResponseEntity.ok(new TokenDto(token, "Bearer"));
 		 
 	}

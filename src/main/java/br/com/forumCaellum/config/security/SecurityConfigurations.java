@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import br.com.forumCaellum.repository.UsuarioRepository;
 
 @EnableWebSecurity
 @Configuration
@@ -20,6 +23,12 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private AuthService authService; 
 	
+	@Autowired
+	private TokenService tokenService;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+//	
 	@Override
 	@Bean
 	protected AuthenticationManager authenticationManager() throws Exception {
@@ -39,9 +48,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.GET,"/topicos/*").permitAll()
 			.antMatchers(HttpMethod.POST,"/auth").permitAll()
 			.anyRequest().authenticated()
-//			.and().formLogin(); // cria sessao
 			.and().csrf().disable() 
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); 
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)   
+			.and().addFilterBefore(new AuthFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class); 
 	}
 	
 	@Override
