@@ -15,4 +15,4 @@ public class ForumCaellumApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ForumCaellumApplication.class, args);
 	}
-}
+}	
