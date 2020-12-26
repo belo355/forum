@@ -24,7 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.forumCaellum.controller.dto.DetalheTopicoDto;
 import br.com.forumCaellum.controller.dto.TopicoDto;
-import br.com.forumCaellum.controller.form.AtualizaTopicoForm;
+import br.com.forumCaellum.controller.form.UpdateTopicForm;
 import br.com.forumCaellum.controller.form.TopicoForm;
 import br.com.forumCaellum.model.Topico;
 import br.com.forumCaellum.repository.CursoRepository;
@@ -42,13 +42,11 @@ public class TopicosController {
 
 	@GetMapping
 	@Cacheable(value = "listaTopicos")
-	public Page<TopicoDto> lista(@RequestParam(required=false) String nomeCurso, 
-//				@RequestParam(required=false) int pag, @RequestParam(required=false) int qtd, @RequestParam(required=false) String sort) {
-				Pageable paginacao){
-		
+	public Page<TopicoDto> findAllTopics(@RequestParam(required=false) String nomeCurso, Pageable paginacao){
+//		@RequestParam(required=false) int pag, @RequestParam(required=false) int qtd, @RequestParam(required=false) String sort) {
 //		Pageable paginacao = PageRequest.of(pag, qtd, Direction.ASC, sort); 
 		
-		if (nomeCurso == null) {
+		if (nomeCurso.isEmpty() || nomeCurso == null) {
 			Page<Topico> topicos = topicoRepository.findAll(paginacao);
 			return TopicoDto.convert(topicos);
 		}else {
@@ -60,7 +58,7 @@ public class TopicosController {
 	@PostMapping
 	@Transactional
 	@CacheEvict(value="listaTopicos",allEntries = true)
-	public ResponseEntity<TopicoDto> register(@RequestBody TopicoForm form, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<TopicoDto> createNewTopic(@RequestBody TopicoForm form, UriComponentsBuilder uriBuilder) {
 		Topico topico = form.convert(cursoRepository); 
 		topicoRepository.save(topico); 
 		
@@ -70,7 +68,7 @@ public class TopicosController {
 	
 	@GetMapping("/{id}")
 	@CacheEvict(value="listaTopicos",allEntries = true)
-	public ResponseEntity<DetalheTopicoDto> detalhar(@PathVariable Long id) {
+	public ResponseEntity<DetalheTopicoDto> findTopicDetails(@PathVariable Long id) {
 		Optional<Topico> topico = topicoRepository.findById(id);
 		if (topico.isPresent()) {
 			return ResponseEntity.ok(new DetalheTopicoDto(topico.get()));
@@ -81,7 +79,7 @@ public class TopicosController {
 	@PutMapping("/{id}")
 	@Transactional
 	@CacheEvict(value="listaTopicos",allEntries = true)
-	public ResponseEntity<TopicoDto> atualizar(@PathVariable Long id, @RequestBody AtualizaTopicoForm form){
+	public ResponseEntity<TopicoDto> updateTopic(@PathVariable Long id, @RequestBody UpdateTopicForm form){
 		Optional<Topico> optional = topicoRepository.findById(id);
 		if (optional.isPresent()) {
 			Topico topico = form.atualizar(id, topicoRepository);
@@ -94,13 +92,12 @@ public class TopicosController {
 	@DeleteMapping("/{id}")
 	@Transactional
 	@CacheEvict(value="listaTopicos",allEntries = true)
-	public ResponseEntity<?> delete(@PathVariable Long id){ 
+	public ResponseEntity<?> deleteTopic(@PathVariable Long id){
 		Optional<Topico> optional = topicoRepository.findById(id);
 		if (optional.isPresent()) {
 			topicoRepository.deleteById(id); 
 			return ResponseEntity.ok().build();
 		}
-		return ResponseEntity.notFound().build(); 
-		
+		return ResponseEntity.notFound().build();
 	}
 }

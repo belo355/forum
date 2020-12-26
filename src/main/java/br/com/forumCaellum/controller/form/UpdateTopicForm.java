@@ -3,7 +3,7 @@ package br.com.forumCaellum.controller.form;
 import br.com.forumCaellum.model.Topico;
 import br.com.forumCaellum.repository.TopicoRepository;
 
-public class AtualizaTopicoForm {
+public class UpdateTopicForm {
 	
 	private String titulo; 
 	private String mensagem; 
