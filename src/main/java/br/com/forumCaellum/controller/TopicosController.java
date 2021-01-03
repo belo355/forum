@@ -1,8 +1,12 @@
 package br.com.forumCaellum.controller;
 
-import java.net.URI; 
+import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +78,22 @@ public class TopicosController {
 			return ResponseEntity.ok(new DetalheTopicoDto(topico.get()));
 		}
 		return ResponseEntity.notFound().build(); 
+	}
+
+	@GetMapping("/dates")
+	@CacheEvict(value="listaTopicos",allEntries = true)
+	public ResponseEntity<DetalheTopicoDto> findTopicsBetweenDates(@PathVariable LocalDateTime dateInital, LocalDateTime dateFinal) {
+
+		try {
+			List<Topico> topics = topicoRepository.findAll();
+			List<Topico> topicsFinal = topics.stream()
+					.filter(topic -> topic.getDataCriacao().isAfter(dateInital))
+					.collect(Collectors.toList());
+
+			return ResponseEntity.ok(new DetalheTopicoDto(topicsFinal));
+		}catch (EntityNotFoundException e ){
+			return ResponseEntity.notFound().build();
+		}
 	}
 	
 	@PutMapping("/{id}")

@@ -1,5 +1,6 @@
 package br.com.forumCaellum.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -11,5 +12,7 @@ import br.com.forumCaellum.model.Topico;
 public interface TopicoRepository extends JpaRepository<Topico, Long> {
 
 	Page<Topico> findByCursoNome(String nomeCurso, Pageable paginacao );
+
+	List<Topico> findByDataCriacao(LocalDateTime date);
 
 }
