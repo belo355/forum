@@ -9,31 +9,28 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
+import br.com.forumCaellum.controller.form.UpdateTopicForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.forumCaellum.controller.dto.DetalheTopicoDto;
 import br.com.forumCaellum.controller.dto.TopicoDto;
-import br.com.forumCaellum.controller.form.UpdateTopicForm;
 import br.com.forumCaellum.controller.form.TopicoForm;
 import br.com.forumCaellum.model.Topico;
 import br.com.forumCaellum.repository.CursoRepository;
 import br.com.forumCaellum.repository.TopicoRepository;
 
+/**
+ * Controller for manager operations Topics.
+ *
+ * @author Edilson Belo
+ */
 @RestController
 @RequestMapping("/topicos")
 public class TopicosController {
@@ -62,17 +59,16 @@ public class TopicosController {
 	@PostMapping
 	@Transactional
 	@CacheEvict(value="listaTopicos",allEntries = true)
-	public ResponseEntity<TopicoDto> createNewTopic(@RequestBody TopicoForm form, UriComponentsBuilder uriBuilder) {
-		Topico topico = form.convert(cursoRepository); 
-		topicoRepository.save(topico); 
-		
-		URI uri = uriBuilder.path("/topicos/{}").buildAndExpand(topico.getId()).toUri(); 
-		return ResponseEntity.created(uri).body(new TopicoDto(topico)); 		
+	public ResponseEntity<TopicoDto> save(@RequestBody TopicoForm form, UriComponentsBuilder uriBuilder) throws IllegalArgumentException {
+		Topico topico = form.convert(cursoRepository);
+		topicoRepository.save(topico);
+		URI uri = uriBuilder.path("/topicos/{}").buildAndExpand(topico.getId()).toUri();
+		return ResponseEntity.created(uri).body(new TopicoDto(topico));
 	}
 	
 	@GetMapping("/{id}")
 	@CacheEvict(value="listaTopicos",allEntries = true)
-	public ResponseEntity<DetalheTopicoDto> findTopicDetails(@PathVariable Long id) {
+	public ResponseEntity<DetalheTopicoDto> findDetails(@PathVariable Long id) {
 		Optional<Topico> topico = topicoRepository.findById(id);
 		if (topico.isPresent()) {
 			return ResponseEntity.ok(new DetalheTopicoDto(topico.get()));
@@ -83,7 +79,6 @@ public class TopicosController {
 	@GetMapping("/dates")
 	@CacheEvict(value="listaTopicos",allEntries = true)
 	public ResponseEntity<DetalheTopicoDto> findTopicsBetweenDates(@PathVariable LocalDateTime dateInital, LocalDateTime dateFinal) {
-
 		try {
 			List<Topico> topics = topicoRepository.findAll();
 			List<Topico> topicsFinal = topics.stream()
@@ -99,20 +94,19 @@ public class TopicosController {
 	@PutMapping("/{id}")
 	@Transactional
 	@CacheEvict(value="listaTopicos",allEntries = true)
-	public ResponseEntity<TopicoDto> updateTopic(@PathVariable Long id, @RequestBody UpdateTopicForm form){
+	public ResponseEntity<TopicoDto> update(@PathVariable Long id, @RequestBody UpdateTopicForm form){
 		Optional<Topico> optional = topicoRepository.findById(id);
 		if (optional.isPresent()) {
 			Topico topico = form.atualizar(id, topicoRepository);
 			return ResponseEntity.ok(new TopicoDto(topico));
 		}
-		 
 		return ResponseEntity.notFound().build(); 	
 	}
 	
 	@DeleteMapping("/{id}")
 	@Transactional
 	@CacheEvict(value="listaTopicos",allEntries = true)
-	public ResponseEntity<?> deleteTopic(@PathVariable Long id){
+	public ResponseEntity<?> delete(@PathVariable Long id){
 		Optional<Topico> optional = topicoRepository.findById(id);
 		if (optional.isPresent()) {
 			topicoRepository.deleteById(id); 

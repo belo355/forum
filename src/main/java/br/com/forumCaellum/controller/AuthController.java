@@ -16,6 +16,12 @@ import br.com.forumCaellum.config.security.TokenService;
 import br.com.forumCaellum.controller.dto.TokenDto;
 import br.com.forumCaellum.controller.form.LoginForm;
 
+
+/**
+ * Class for manager operations Authentication.
+ *
+ * @author Edilson Belo
+ */
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -27,14 +33,13 @@ public class AuthController {
 	private TokenService tokenService; 
 	
 	@PostMapping
-	public ResponseEntity<TokenDto> autenticar(@RequestBody LoginForm form) throws AuthenticationException{
-		UsernamePasswordAuthenticationToken dadosLogin = form.converter(); 
+	public ResponseEntity<TokenDto> authenticationAndGeneratedTokenAcess(@RequestBody LoginForm form) throws AuthenticationException{
+		UsernamePasswordAuthenticationToken dataAccess = form.converter();
 		
-		Authentication authentication = authManager.authenticate(dadosLogin);
+		Authentication authentication = authManager.authenticate(dataAccess);
 		String token = tokenService.generateToken(authentication);
 
 		return ResponseEntity.ok(new TokenDto(token, "Bearer"));
-		 
 	}
 
 }
