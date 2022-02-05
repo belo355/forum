@@ -35,10 +35,8 @@ public class AuthController {
 	@PostMapping
 	public ResponseEntity<TokenDto> authenticationAndGeneratedTokenAcess(@RequestBody LoginForm form) throws AuthenticationException{
 		UsernamePasswordAuthenticationToken dataAccess = form.converter();
-		
 		Authentication authentication = authManager.authenticate(dataAccess);
 		String token = tokenService.generateToken(authentication);
-
 		return ResponseEntity.ok(new TokenDto(token, "Bearer"));
 	}
 

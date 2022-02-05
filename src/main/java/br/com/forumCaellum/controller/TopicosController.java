@@ -50,9 +50,6 @@ public class TopicosController {
     @GetMapping
     @Cacheable(value = "listaTopicos")
     public Page<TopicoDto> findAll(@RequestParam(required = true) String nomeCurso, Pageable paginacao) {
-//		@RequestParam(required=false) int pag, @RequestParam(required=false) int qtd, @RequestParam(required=false) String sort) {
-//		Pageable paginacao = PageRequest.of(pag, qtd, Direction.ASC, sort); 
-
         try {
             Page<Topico> topicos = topicoRepository.findAll(paginacao);
             return TopicoDto.convert(topicos);
@@ -76,10 +73,7 @@ public class TopicosController {
     @CacheEvict(value = "listaTopicos", allEntries = true)
     public ResponseEntity<DetalheTopicoDto> findDetails(@PathVariable Long id) {
         Optional<Topico> topico = topicoRepository.findById(id);
-        if (topico.isPresent()) {
-            return ResponseEntity.ok(new DetalheTopicoDto(topico.get()));
-        }
-        return ResponseEntity.notFound().build();
+        return topico.map(value -> ResponseEntity.ok(new DetalheTopicoDto(value))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/dates")
@@ -90,7 +84,6 @@ public class TopicosController {
             List<Topico> topicsFinal = topics.stream()
                     .filter(topic -> topic.getDataCriacao().isAfter(dateInital))
                     .collect(Collectors.toList());
-
             return ResponseEntity.ok(new DetalheTopicoDto(topicsFinal));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();

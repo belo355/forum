@@ -1,14 +1,8 @@
-# FORUM ALURA
+### Forum
++ Aplicacao de forum online                
 
-## application Rest API 
-+ JWT 
-+ SpringBoot 
-  + Data 
-  + Security 
-  + Actuator - Monitoring 
-  + Documentation  
+### Application Rest API 
++ Auth with JWT 
++ SpringBoot  framework 
++ Database - H2 
  
- ## <b>environment </b> 
- 
- <p>JWT_EXPIRATION</p>
- <p>JWT_SECRET</p>
