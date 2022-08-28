@@ -3,15 +3,14 @@ package br.com.forumCaellum.controller.dto;
 import java.time.LocalDateTime;
 
 import br.com.forumCaellum.model.Resposta;
-import br.com.forumCaellum.model.Usuario;
 
 public class RespostaDto {
-	
-	private Long id; 
-	private String mensagem; 
+
+	private Long id;
+	private String mensagem;
 	private LocalDateTime dataCriacao;
-	private String nomeAutor; 
-	
+	private String nomeAutor;
+
 	public RespostaDto(Resposta resposta) {
 		this.id = resposta.getId();
 		this.mensagem = resposta.getMensagem();
@@ -34,6 +33,5 @@ public class RespostaDto {
 	public String getNomeAutor() {
 		return nomeAutor;
 	}
-	
 	
 }

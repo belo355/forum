@@ -2,27 +2,13 @@ package br.com.forumCaellum.controller.form;
 
 import br.com.forumCaellum.model.Topico;
 import br.com.forumCaellum.repository.TopicoRepository;
+import lombok.Data;
 
+@Data
 public class UpdateTopicForm {
 	
 	private String titulo; 
-	private String mensagem; 
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
-	public String getMensagem() {
-		return mensagem;
-	}
-
-	public void setMensagem(String mensagem) {
-		this.mensagem = mensagem;
-	}
+	private String mensagem;
 
 	public Topico atualizar(Long id, TopicoRepository topicoRepository) {
 		Topico topico = topicoRepository.getOne(id); 

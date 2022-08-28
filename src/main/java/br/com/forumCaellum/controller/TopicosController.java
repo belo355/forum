@@ -10,7 +10,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import br.com.forumCaellum.controller.form.UpdateTopicForm;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,6 @@ import br.com.forumCaellum.repository.TopicoRepository;
  *
  * @author Edilson Belo
  */
-@Slf4j
 @RestController
 @RequestMapping("/topicos")
 public class TopicosController {
@@ -45,7 +43,7 @@ public class TopicosController {
     @Autowired
     private CursoRepository cursoRepository;
 
-	private static Logger log = LoggerFactory.getLogger(TopicosController.class);
+	private static final Logger logger = LoggerFactory.getLogger(TopicosController.class);
 
     @GetMapping
     @Cacheable(value = "listaTopicos")
@@ -54,7 +52,7 @@ public class TopicosController {
             Page<Topico> topicos = topicoRepository.findAll(paginacao);
             return TopicoDto.convert(topicos);
         } catch (IllegalArgumentException e ) {
-            log.info(e.getMessage());
+            logger.info(e.getMessage());
         }
         return null;
     }
@@ -113,4 +111,5 @@ public class TopicosController {
         }
         return ResponseEntity.notFound().build();
     }
+
 }

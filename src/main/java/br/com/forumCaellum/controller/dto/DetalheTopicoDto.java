@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 import br.com.forumCaellum.model.Curso;
 import br.com.forumCaellum.model.StatusTopico;
 import br.com.forumCaellum.model.Topico;
+import lombok.Data;
 
+@Data
 public class DetalheTopicoDto {
 	
 	private Long id; 
@@ -33,7 +35,6 @@ public class DetalheTopicoDto {
 	}
 
 	public DetalheTopicoDto(List<Topico> topics){
-
 		topics.forEach(topic -> {
 			this.id = topic.getId();
 			this.titulo = topic.getTitulo();
@@ -46,38 +47,5 @@ public class DetalheTopicoDto {
 			this.respostas.addAll(topic.getRespostas().stream().map(RespostaDto::new).collect(Collectors.toList()));
 		});
 	}
-	
-	public Long getId() {
-		return id;
-	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public String getMensagem() {
-		return mensagem;
-	}
-
-	public LocalDateTime getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public Curso getCurso() {
-		return curso;
-	}
-
-	public String getNomeAutor() {
-		return nomeAutor;
-	}
-
-	public StatusTopico getStatus() {
-		return status;
-	}
-
-	public List<RespostaDto> getRespostas() {
-		return respostas;
-	}
-
 
 }
