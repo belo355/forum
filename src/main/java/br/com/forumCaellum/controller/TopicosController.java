@@ -28,11 +28,6 @@ import br.com.forumCaellum.model.Topico;
 import br.com.forumCaellum.repository.CursoRepository;
 import br.com.forumCaellum.repository.TopicoRepository;
 
-/**
- * Controller for manager operations Topics.
- *
- * @author Edilson Belo
- */
 @RestController
 @RequestMapping("/topicos")
 public class TopicosController {
