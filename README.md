@@ -1,8 +1,14 @@
-### Forum
-+ Aplicacao de forum online                
+# Forum online
 
-### Application Rest API 
-+ Auth with JWT 
-+ SpringBoot  framework 
-+ Database - H2 
- 
+App de forum tech online
+
+## Ações
+
+> Autenticacao de usuarios habilitados .
+
+>Manipulação de topicos para usuarios e visitantes.
+
+## Cenário de escalabilidade
+
+Alto volume de conexoes simultaneas de usuarios e visitantes a plataforma, produzindo escalada de posts criados no forum.
+

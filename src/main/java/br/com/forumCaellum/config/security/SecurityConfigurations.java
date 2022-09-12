@@ -28,7 +28,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-//	
+
 	@Override
 	@Bean
 	protected AuthenticationManager authenticationManager() throws Exception {

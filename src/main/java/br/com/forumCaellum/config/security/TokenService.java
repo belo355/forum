@@ -14,15 +14,15 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class TokenService {
 	
 	public String generateToken(Authentication authentication) {
-		Usuario logado = (Usuario) authentication.getPrincipal(); 
-		Date hoje = new Date(); 
-		Date dataExpiração = new Date(hoje.getTime()+ Long.parseLong(System.getenv("JWT_EXPIRATION"))); 
+		Usuario usuario = (Usuario) authentication.getPrincipal();
+		Date dateNow = new Date();
+		Date expiration = new Date(dateNow.getTime()+ Long.parseLong(System.getenv("JWT_EXPIRATION")));
 		
 		return Jwts.builder()
 				.setIssuer("Api forum alura")
-				.setSubject(logado.getId().toString())
-				.setIssuedAt(hoje)
-				.setExpiration(dataExpiração)
+				.setSubject(usuario.getId().toString())
+				.setIssuedAt(dateNow)
+				.setExpiration(expiration)
 				.signWith(SignatureAlgorithm.HS256, System.getenv("JWT_SECRET"))
 				.compact();
 	}

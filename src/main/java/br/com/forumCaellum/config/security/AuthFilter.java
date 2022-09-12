@@ -17,7 +17,7 @@ import br.com.forumCaellum.repository.UsuarioRepository;
 public class AuthFilter extends OncePerRequestFilter{
 
 	private TokenService tokenService;
-	private UsuarioRepository usuarioRepository; 
+	private UsuarioRepository usuarioRepository;
 	
 	public AuthFilter(TokenService tokenService, UsuarioRepository usuarioRepository) {
 		this.tokenService = tokenService; 
@@ -25,13 +25,10 @@ public class AuthFilter extends OncePerRequestFilter{
 	}
 	
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
-		
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 		String token = getTokenRequest(request); 		
-		boolean valido = tokenService.isValidoToken(token);
-
-		if (valido) {
+		boolean isValid = tokenService.isValidoToken(token);
+		if (isValid) {
 			autenticaCliente(token); 
 		}
 		filterChain.doFilter(request, response);
@@ -39,11 +36,8 @@ public class AuthFilter extends OncePerRequestFilter{
 
 	private void autenticaCliente(String token) {
 		Long idUsuario = tokenService.getIdUsuario(token); 
-		Usuario usuario = usuarioRepository.findById(idUsuario).get(); 
-		
-		UsernamePasswordAuthenticationToken authentication = 
-				new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-		
+		Usuario usuario = usuarioRepository.findById(idUsuario).get();
+		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 	}
 	

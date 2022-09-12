@@ -16,11 +16,6 @@ import br.com.forumCaellum.config.security.TokenService;
 import br.com.forumCaellum.controller.dto.TokenDto;
 import br.com.forumCaellum.controller.form.LoginForm;
 
-/**
- * Class for manager operations Authentication.
- *
- * @author Edilson Belo
- */
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
